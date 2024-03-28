@@ -16,6 +16,9 @@
     <PackageReference Include="Bogus" Version="35.5.0" />
     <PackageReference Include="QuestPDF" Version="2023.12.6" />
     <PackageReference Include="HTMLToQPDF" Version="1.1.0" />
+    <PackageReference Include="RazorEngine" Version="3.10.0" />
+    <PackageReference Include="Fluid.Core" Version="2.7.0" />
+    <PackageReference Include="Marten" Version="7.5.0" />
   </ItemGroup>
 
   <ItemGroup>

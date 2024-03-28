@@ -2,10 +2,11 @@
 
 using Razor.Templating.Core;
 using QuestPDF.Infrastructure;
-
 using HtmlToPdf.Models;
 using HtmlToPdf.Factory;
-
+using RazorEngine.Templating;
+using RazorEngine.Configuration;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddRazorTemplating();
 builder.Services.AddSingleton<InvoiceFactory>();
 builder.Services.AddSingleton<PdfGenerateService>();
+builder.Services.AddSingleton<IRazorEngineService>(provider =>
+{
+    var config = new TemplateServiceConfiguration();
+    return RazorEngineService.Create(config);
+});
 
 var app = builder.Build();
 
@@ -37,7 +43,7 @@ app.MapGet(
         Invoice invoice = invoiceFactory.Create();
         string html = await razorTemplateEngine.RenderAsync("Views/InvoiceReport.cshtml", invoice);
 
-        return Results.Ok(html);
+        return Results.Content(html, "text/html", Encoding.UTF8);
     });
 
 app.MapGet(
@@ -48,6 +54,7 @@ app.MapGet(
         [FromServices] PdfGenerateService pdfGenerateService) =>
     {
         Invoice invoice = invoiceFactory.Create();
+
         string html = await razorTemplateEngine.RenderAsync("Views/InvoiceReport.cshtml", invoice);
         byte[] pdf = pdfGenerateService.GeneratePdf(html);
 
@@ -61,4 +68,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-

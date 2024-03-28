@@ -8,14 +8,11 @@
     var subtotal = Model.Items.Sum(li => li.Price * li.Quantity).ToString("C", cultureInfo);
     var total = Model.Items.Sum(li => li.Price * li.Quantity).ToString("C", cultureInfo);
 }
-
 <script src="https://cdn.tailwindcss.com"></script>
-
 <div class="min-w-7xl flex flex-col bg-gray-200 space-y-4 p-10">
     <h1 class="text-2xl font-semibold">Invoice #@Model.Number</h1>
     <p style="color: red;">Issued date: @Model.IssuedDate.ToString("dd/MM/yyyy")</p>
     <p>Due date: @Model.DueDate.ToString("dd/MM/yyyy")</p>
-
     <div class="flex justify-between space-x-4">
         <div class="bg-gray-100 rounded-lg flex flex-col space-y-1 p-4 w-1/2">
             <p class="font-medium">Seller:</p> <p>@Model.SellerAddress.CompanyName</p>
@@ -33,7 +30,6 @@
             <p>@Model.CustomerAddress.Email</p>
         </div>
     </div>
-
     <div class="flex flex-col bg-white rounded-lg p-4 space-y-2">
         <h2 class="text-xl font-medium">Items: </h2>
         <div class="">
