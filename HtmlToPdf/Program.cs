@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text;
+
+using Microsoft.AspNetCore.Mvc;
 
 using Razor.Templating.Core;
 using QuestPDF.Infrastructure;
+
 using HtmlToPdf.Models;
 using HtmlToPdf.Factory;
-using RazorEngine.Templating;
-using RazorEngine.Configuration;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,11 +19,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddRazorTemplating();
 builder.Services.AddSingleton<InvoiceFactory>();
 builder.Services.AddSingleton<PdfGenerateService>();
-builder.Services.AddSingleton<IRazorEngineService>(provider =>
-{
-    var config = new TemplateServiceConfiguration();
-    return RazorEngineService.Create(config);
-});
 
 var app = builder.Build();
 
@@ -62,9 +57,7 @@ app.MapGet(
     });
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
